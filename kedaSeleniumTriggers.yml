@@ -1,0 +1,32 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: selenium-grid-chrome-scaledobject
+  labels:
+    deploymentName: selenium-chrome-node
+spec:
+  maxReplicaCount: 8
+  scaleTargetRef:
+    name: selenium-chrome-node
+  triggers:
+    - type: selenium-grid
+      metadata:
+        url: 'http://selenium-hub.default.svc.cluster.local:4444/graphql'
+        browserName: 'chrome'
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: selenium-grid-firefox-scaledobject
+  labels:
+    deploymentName: selenium-firefox-node
+spec:
+  maxReplicaCount: 8
+  scaleTargetRef:
+    name: selenium-firefox-node
+  triggers:
+    - type: selenium-grid
+      metadata:
+        url: 'http://selenium-hub.default.svc.cluster.local:4444/graphql'
+        browserName: 'firefox'
+---

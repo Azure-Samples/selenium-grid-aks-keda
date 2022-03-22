@@ -1,0 +1,42 @@
+{
+  "id": "050ee51c-6945-49e5-a54c-14151fd8f90f",
+  "version": "2.0",
+  "name": "Microsoft open and wait",
+  "url": "https://www.microsoft.com",
+  "tests": [{
+    "id": "5d0d3bdc-971e-4fd2-8f61-0c90eeb4e4fa",
+    "name": "google AKS-C",
+    "commands": [{
+      "id": "05ee9e6d-5e8a-4fff-b6e4-d00090de5aac",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "517e23e1-dea8-4394-a03b-68c763708dca",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1290x1062",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "517e23e1-dea8-4394-a03b-68c763708dca",
+      "comment": "",
+      "command": "pause",
+      "target": "1000",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "114fcb7d-4146-44ff-843e-25fd7c033d3d",
+    "name": "Basic Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["5d0d3bdc-971e-4fd2-8f61-0c90eeb4e4fa"]
+  }],
+  "urls": ["https://www.microsoft.com/"],
+  "plugins": []
+}
