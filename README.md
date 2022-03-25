@@ -19,25 +19,34 @@ graph TB
     usr(User workstation run test)--> hub
     subgraph AKS Static User Pool
     hub(selenium hub)-->queue
-    queue(selenium queue)-->sch
+    queue(selenium queue)
+    api(selenium api)-->queue
+    end
+    subgraph Keda
+    trigger-->|Things in the queue? |api
+    scale(Scale Logic)
+    end
+    subgraph AKS
+    scale-->sch
+    sch(Kubernetes Scheduler)
     end
     subgraph AKS Chrome User Pool 
-    sch(Kubernetes Scheduler)-->cse
+    sch-->|Scale up|cse
     cse(Autoscale triggered)-->cna
     cna(Node Available)-->crt(Run test)
-    crt-->csd(Scale back to zero)
+    crt-->csd(Scale back)
     end
     subgraph AKS Firefox User Pool 
-    sch(Kubernetes Scheduler)-->fse
+    sch-->|Scale up|fse
     fse(Autoscale triggered)-->fna
     fna(Node Available)-->frt(Run test)
-    frt-->fsd(Scale back to zero)
+    frt-->fsd(Scale back)
     end
     subgraph AKS Edge User Pool 
-    sch(Kubernetes Scheduler)-->ese
+    sch-->|Scale up|ese
     ese(Autoscale triggered)-->ena
     ena(Node Available)-->ert(Run test)
-    ert-->esd(Scale back to zero)
+    ert-->esd(Scale back)
     end
 ```
 
