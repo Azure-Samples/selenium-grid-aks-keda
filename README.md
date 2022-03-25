@@ -16,7 +16,9 @@ This project framework provides the following features:
 ```mermaid
 graph TB
     tst(Build agent run test)--> hub
+    style tst fill:#F25022,stroke:#333,stroke-width:4px
     usr(User workstation run test)--> hub
+    style usr fill:#F25022,stroke:#333,stroke-width:4px
     subgraph AKS Static User Pool
     hub(selenium hub)-->queue
     queue(selenium queue)
