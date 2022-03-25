@@ -11,6 +11,36 @@ This project framework provides the following features:
 * Multiple AKS autoscaling node pools match to the Selenium node types using Node Selectors
 * KEDA is leveraged to allow the pools to scale from zero based on the Selenium queue
 
+## Process Overview
+
+```mermaid
+graph TB
+    tst(Build agent run test)--> hub
+    usr(User workstation run test)--> hub
+    subgraph AKS Static User Pool
+    hub(selenium hub)-->queue
+    queue(selenium queue)-->sch
+    end
+    subgraph AKS Chrome User Pool 
+    sch(Kubernetes Scheduler)-->cse
+    cse(Autoscale triggered)-->cna
+    cna(Node Available)-->crt(Run test)
+    crt-->csd(Scale back to zero)
+    end
+    subgraph AKS Firefox User Pool 
+    sch(Kubernetes Scheduler)-->fse
+    fse(Autoscale triggered)-->fna
+    fna(Node Available)-->frt(Run test)
+    frt-->fsd(Scale back to zero)
+    end
+    subgraph AKS Edge User Pool 
+    sch(Kubernetes Scheduler)-->ese
+    ese(Autoscale triggered)-->ena
+    ena(Node Available)-->ert(Run test)
+    ert-->esd(Scale back to zero)
+    end
+```
+
 ## Getting Started
 
 ### Prerequisites
