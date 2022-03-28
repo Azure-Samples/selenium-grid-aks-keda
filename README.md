@@ -3,8 +3,6 @@
 This sample shows how to create an Azure Kubernetes Service optimised to work with Selenium Grid for node autoscaling.
 Dedicated browser node pools will scale up from zero instances using KEDA (Kubernetes Event-driven Autoscaling) which monitors the Selenium test queue.
 
-`This sample is currently a work in progress`
-
 ## Features
 
 This project framework provides the following features:
@@ -145,7 +143,7 @@ selenium-side-runner --server $GridHubURL $PathToSeleniumTests --debug
 
 A demo app is included to show cross network connectivity, and more typical Selenium tests.
 
-1. Install the Voting App On the other cluster
+1. Install the Azure Voting App sample on the other cluster
 
 ```bash
 az aks get-credentials -n aks-app-stest -g rg-stest-testapp --overwrite-existing
