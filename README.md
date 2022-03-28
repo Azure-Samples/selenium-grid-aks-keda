@@ -5,13 +5,13 @@ Dedicated browser node pools will scale up from zero instances using KEDA (Kuber
 
 ## Features
 
-This project framework provides the following features:
+This sample shows the following features:
 
 * AKS Configured with multiple node pools, with some `Scaling from Zero`
-* AKS node pools match the Selenium browser node types using Node Selectors
-* KEDA is leveraged to allow the pools to auto scale based on the Selenium queue
+* Using `Node Selectors` to map AKS node pools to Selenium browser nodes
+* Selenium Queue triggered cluster scaling using KEDA
 
-## Process Overview
+## Overview
 
 ```mermaid
 graph TB
