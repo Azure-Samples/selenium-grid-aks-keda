@@ -60,7 +60,7 @@ Using [AKS Construction](https://github.com/Azure/Aks-Construction), we can quic
 One cluster will run the Selenium Grid, and the other will run a sample application.
 
 ```bash
-az deployment sub create -u https://aka.ms/aksc/json-peeredvnet -l WestEurope -p adminPrincipleId=$(az ad signed-in-user show --query objectId --out tsv)
+az deployment sub create -u https://aka.ms/aksc/json-peeredvnet -l WestEurope -p adminprincipleid=$(az ad signed-in-user show --query objectId --out tsv)
 az aks get-credentials -n aks-grid-stest -g rg-stest-selenium --overwrite-existing
 ```
 
@@ -97,6 +97,8 @@ helm upgrade --install selenium-grid docker-selenium/chart/selenium-grid/. --set
 #### Keda Triggers
 
 Configure KEDA to look at the Selenium Grid GraphQL endpoint. Note the fqdn includes the service name and namespace of the Selenium-Hub service.
+
+> The URL value from kedaSeleniumTriggers.yml is : http://selenium-hub.default.svc.cluster.local:4444/graphql' If you have deployed Selenium to a different namespace then you will need to change this.
 
 ```bash
 kubectl apply -f kedaSeleniumTriggers.yml
