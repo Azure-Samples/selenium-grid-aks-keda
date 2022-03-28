@@ -111,7 +111,7 @@ Configure KEDA to look at the Selenium Grid GraphQL endpoint. Note the fqdn incl
 kubectl apply -f kedaSeleniumTriggers.yml
 ```
 
-#### Selenium Side Runer
+#### Selenium Side Runner CLI
 
 ```bash
 npm install -g selenium-side-runner
@@ -147,16 +147,21 @@ A demo app is included to show cross network connectivity, and more typical Sele
 1. Install the Voting App On the other cluster
 
 ```bash
-
+az aks get-credentials -n aks-app-stest -g rg-stest-testapp --overwrite-existing
 kubectl apply -f https://raw.githubusercontent.com/Azure-Samples/azure-voting-app-redis/master/azure-vote-all-in-one-redis.yaml
 ```
 
 2. Grab the application IP
 
+```bash
+APPPUBLICIP=$(kubectl get svc azure-vote-front -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+```
+
 3. Run the application specific tests
 
 ```bash
-
+PathToSeleniumTests="testsuites/voteapp/*"
+selenium-side-runner --server $GridHubURL $PathToSeleniumTests --base-url http://$APPPUBLICIP --debug 
 ```
 
 ## Cleanup
