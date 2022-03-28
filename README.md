@@ -108,7 +108,7 @@ kubectl apply -f kedaSeleniumTriggers.yml
 #### Selenium Side Runer
 
 ```bash
-sudo npm install -g selenium-side-runner
+npm install -g selenium-side-runner
 ```
 
 ### Quickstart
