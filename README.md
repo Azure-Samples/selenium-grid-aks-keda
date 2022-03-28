@@ -1,6 +1,7 @@
 # Selenium Grid scaling with KEDA on AKS
 
-This sample shows how to auto scale Selenium Grid on the Azure Kubernetes Service.
+This sample shows how to create an Azure Kubernetes Service optimised to work with Selenium Grid for node autoscaling. 
+Dedicated browser node pools will scale up from zero instances using KEDA (Kubernetes Event-driven Autoscaling) which monitors the Selenium test queue.
 
 `This sample is currently a work in progress`
 
