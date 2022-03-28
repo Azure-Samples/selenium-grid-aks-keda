@@ -1,0 +1,96 @@
+{
+  "id": "fb7c36c6-c9c9-4953-91a2-a26011e77dd3",
+  "version": "2.0",
+  "name": "voteapp",
+  "url": "http://20.31.90.1",
+  "tests": [{
+    "id": "b34ee89d-c22f-4cb7-b5c6-dc9a7ec2f824",
+    "name": "VoteCatAssert",
+    "commands": [{
+      "id": "492b8e9e-0b44-49f8-8d82-6d6571bc414e",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4b41f9fa-63dd-495e-8d51-62c47c13a3b1",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "560x710",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "24b057ce-776a-4b12-9a9d-ea581aab630e",
+      "comment": "",
+      "command": "assertTitle",
+      "target": "Azure Voting App",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c4e3e7b3-5bc6-4852-ae42-1dc18426ceb7",
+      "comment": "Reset",
+      "command": "click",
+      "target": "css=.button3",
+      "targets": [
+        ["css=.button3", "css:finder"],
+        ["xpath=(//button[@name='vote'])[3]", "xpath:attributes"],
+        ["xpath=//div[@id='form']/button[3]", "xpath:idRelative"],
+        ["xpath=//button[3]", "xpath:position"],
+        ["xpath=//button[contains(.,'Reset')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0a4e31a9-f575-4f8d-b85d-27ecd57359b1",
+      "comment": "Vote cats",
+      "command": "click",
+      "target": "name=vote",
+      "targets": [
+        ["name=vote", "name"],
+        ["css=.button1", "css:finder"],
+        ["xpath=//button[@name='vote']", "xpath:attributes"],
+        ["xpath=//div[@id='form']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Cats')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "50f28087-c683-40fc-832c-5ccc4994177a",
+      "comment": "Vote cats",
+      "command": "click",
+      "target": "name=vote",
+      "targets": [
+        ["name=vote", "name"],
+        ["css=.button1", "css:finder"],
+        ["xpath=//button[@name='vote']", "xpath:attributes"],
+        ["xpath=//div[@id='form']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Cats')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a4e2ba9a-c07a-4111-a645-d443bc4d5a0d",
+      "comment": "Check vote value",
+      "command": "assertText",
+      "target": "id=results",
+      "targets": [
+        ["id=results", "id"],
+        ["css=#results", "css:finder"],
+        ["xpath=//div[@id='results']", "xpath:attributes"],
+        ["xpath=//div[@id='form']/div[3]", "xpath:idRelative"],
+        ["xpath=//div[3]/div[3]", "xpath:position"]
+      ],
+      "value": "Cats - 2 | Dogs - 0"
+    }]
+  }],
+  "suites": [{
+    "id": "344225eb-8610-4285-b3dc-1a07ce7f4200",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": [],
+  "plugins": []
+}

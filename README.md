@@ -1,6 +1,6 @@
 # Selenium Grid scaling with KEDA on AKS
 
-This sample shows how to create an Azure Kubernetes Service optimised to work with Selenium Grid for node autoscaling. 
+This sample shows how to create an Azure Kubernetes Service optimised to work with Selenium Grid for node autoscaling.
 Dedicated browser node pools will scale up from zero instances using KEDA (Kubernetes Event-driven Autoscaling) which monitors the Selenium test queue.
 
 `This sample is currently a work in progress`
@@ -9,8 +9,9 @@ Dedicated browser node pools will scale up from zero instances using KEDA (Kuber
 
 This project framework provides the following features:
 
-* Multiple AKS autoscaling node pools match to the Selenium node types using Node Selectors
-* KEDA is leveraged to allow the pools to scale from zero based on the Selenium queue
+* AKS Configured with multiple node pools, with some `Scaling from Zero`
+* AKS node pools match the Selenium browser node types using Node Selectors
+* KEDA is leveraged to allow the pools to auto scale based on the Selenium queue
 
 ## Process Overview
 
@@ -33,19 +34,19 @@ graph TB
     scale-->sch
     sch(Kubernetes Scheduler)
     end
-    subgraph AKS Chrome User Pool 
+    subgraph AKS Chrome User Pool
     sch-->|Scale up|cse
     cse(Autoscale triggered)-->cna
     cna(Node Available)-->crt(Run test)
     crt-->csd(Scale back)
     end
-    subgraph AKS Firefox User Pool 
+    subgraph AKS Firefox User Pool
     sch-->|Scale up|fse
     fse(Autoscale triggered)-->fna
     fna(Node Available)-->frt(Run test)
     frt-->fsd(Scale back)
     end
-    subgraph AKS Edge User Pool 
+    subgraph AKS Edge User Pool
     sch-->|Scale up|ese
     ese(Autoscale triggered)-->ena
     ena(Node Available)-->ert(Run test)
@@ -59,7 +60,7 @@ graph TB
 
 Interaction with Azure is done using the [Azure CLI](https://docs.microsoft.com/cli/azure/), [Helm](https://helm.sh/docs/intro/install/) and [Kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) are required for accessing Kubernetes packages and installing them to the cluster.
 
-The [Selenium IDE CLI](https://www.selenium.dev/selenium-ide/docs/en/introduction/command-line-runner) (Selenium Side Runner) is used to add tests to the queue. The side runner is a provided as an npm package which requires Node & Npm to be installed. 
+The [Selenium IDE CLI](https://www.selenium.dev/selenium-ide/docs/en/introduction/command-line-runner) (Selenium Side Runner) is used to add tests to the queue. The side runner is a provided as an npm package which requires Node & Npm to be installed.
 
 > A dev container and GitHub action are included in this repo to make this easier for users who don't have all these tools set up locally.
 
@@ -103,7 +104,7 @@ helm upgrade --install selenium-grid docker-selenium/chart/selenium-grid/. --set
 
 #### Keda Triggers
 
-Configure KEDA to look at the Selenium Grid GraphQL endpoint. Note the fqdn includes the service name and namespace of the Selenium-Hub service.
+Configures KEDA to look at the Selenium Grid GraphQL endpoint. Note the fqdn includes the service name and namespace of the Selenium-Hub service.
 
 > The URL value from kedaSeleniumTriggers.yml is : http://selenium-hub.default.svc.cluster.local:4444/graphql' If you have deployed Selenium to a different namespace then you will need to change this.
 
@@ -160,8 +161,8 @@ APPPUBLICIP=$(kubectl get svc azure-vote-front -o=jsonpath='{.status.loadBalance
 3. Run the application specific tests
 
 ```bash
-PathToSeleniumTests="testsuites/voteapp/*"
-selenium-side-runner --server $GridHubURL $PathToSeleniumTests --base-url http://$APPPUBLICIP --debug 
+PathToSeleniumTests="testsuites/azurevote/*"
+selenium-side-runner --server $GridHubURL $PathToSeleniumTests --base-url http://$APPPUBLICIP --debug
 ```
 
 ## Cleanup
