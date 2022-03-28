@@ -9,7 +9,7 @@ This sample shows the following features:
 
 * AKS Configured with multiple node pools, with some `Scaling from Zero`
 * Using `Node Selectors` to map AKS node pools to Selenium browser nodes
-* Selenium Queue triggered cluster scaling using KEDA
+* Selenium Queue triggered cluster scaling using `Event Driven Autoscaling` with KEDA
 
 ## Overview
 
@@ -87,7 +87,7 @@ helm install keda kedacore/keda --namespace keda
 
 #### Selenium Grid
 
-Installs Selenium Grid in the default Kubernetes namespace.
+Install Selenium Grid in the default Kubernetes namespace.
 
 ```bash
 git clone https://github.com/seleniumhq/docker-selenium.git
