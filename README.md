@@ -57,6 +57,14 @@ graph TB
 
 ### Prerequisites
 
+Interaction with Azure is done using the [Azure CLI](https://docs.microsoft.com/cli/azure/), [Helm](https://helm.sh/docs/intro/install/) and [Kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) are required for accessing Kubernetes packages and installing them to the cluster.
+
+The [Selenium IDE CLI](https://www.selenium.dev/selenium-ide/docs/en/introduction/command-line-runner) (Selenium Side Runner) is used to add tests to the queue. The side runner is a provided as an npm package which requires Node & Npm to be installed. A dev container and GitHub action are included in this repo to make this easier for users who don't have all these tools set up locally.
+
+### Installation
+
+#### AKS
+
 Using [AKS Construction](https://github.com/Azure/Aks-Construction), we can quickly set up pair of AKS clusters in different virtual networks with connectivity between.
 One cluster will run the Selenium Grid, and the other will run a sample application.
 
@@ -64,10 +72,6 @@ One cluster will run the Selenium Grid, and the other will run a sample applicat
 az deployment sub create -u https://github.com/Azure/AKS-Construction/releases/download/0.6.2/sample-peeredvnet-main.json -l WestEurope -p adminPrincipleId=$(az ad signed-in-user show --query objectId --out tsv)
 az aks get-credentials -n aks-grid-stest -g rg-stest-selenium --overwrite-existing
 ```
-
-This sample uses the Selenium IDE CLI (Selenium Side Runner) to add tests to the queue. This requires Node & Npm to be installed. A dev container and GitHub action are included in this repo to make this easier for users who don't have Node set up locally.
-
-### Installation
 
 #### Keda
 
@@ -142,6 +146,7 @@ A demo app is included to show cross network connectivity, and more typical Sele
 
 ```bash
 
+kubectl apply -f https://raw.githubusercontent.com/Azure-Samples/azure-voting-app-redis/master/azure-vote-all-in-one-redis.yaml
 ```
 
 2. Grab the application IP
