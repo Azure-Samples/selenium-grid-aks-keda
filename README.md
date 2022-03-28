@@ -118,6 +118,10 @@ npm install -g selenium-side-runner
 
 ### Quickstart
 
+Open the Azure Portal, and check that the 5 node pools are present and correct. Note that 3 of the pools should contain no instances.
+
+![AKS Node Pools](docassets/AKSNodePools.png)
+
 Now that the Cluster is ready, we can load up some tests to the Selenium Grid.
 
 1. Get the Public IP address the Selenium Hub is running on.
