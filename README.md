@@ -61,7 +61,7 @@ Using [AKS Construction](https://github.com/Azure/Aks-Construction), we can quic
 One cluster will run the Selenium Grid, and the other will run a sample application.
 
 ```bash
-az deployment sub create -u https://aka.ms/aksc/json-peeredvnet -l WestEurope -p adminprincipleid=$(az ad signed-in-user show --query objectId --out tsv)
+az deployment sub create -u https://github.com/Azure/AKS-Construction/releases/download/0.6.2/sample-peeredvnet-main.json -l WestEurope -p adminPrincipleId=$(az ad signed-in-user show --query objectId --out tsv)
 az aks get-credentials -n aks-grid-stest -g rg-stest-selenium --overwrite-existing
 ```
 
@@ -150,6 +150,15 @@ A demo app is included to show cross network connectivity, and more typical Sele
 
 ```bash
 
+```
+
+## Cleanup
+
+Two new resource groups will have been created in your subscription, these should be deleted.
+
+```azurecli
+az group delete -n rg-stest-selenium
+az group delete -n rg-stest-testapp
 ```
 
 ## Resources
