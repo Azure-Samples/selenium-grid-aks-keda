@@ -59,7 +59,9 @@ graph TB
 
 Interaction with Azure is done using the [Azure CLI](https://docs.microsoft.com/cli/azure/), [Helm](https://helm.sh/docs/intro/install/) and [Kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) are required for accessing Kubernetes packages and installing them to the cluster.
 
-The [Selenium IDE CLI](https://www.selenium.dev/selenium-ide/docs/en/introduction/command-line-runner) (Selenium Side Runner) is used to add tests to the queue. The side runner is a provided as an npm package which requires Node & Npm to be installed. A dev container and GitHub action are included in this repo to make this easier for users who don't have all these tools set up locally.
+The [Selenium IDE CLI](https://www.selenium.dev/selenium-ide/docs/en/introduction/command-line-runner) (Selenium Side Runner) is used to add tests to the queue. The side runner is a provided as an npm package which requires Node & Npm to be installed. 
+
+> A dev container and GitHub action are included in this repo to make this easier for users who don't have all these tools set up locally.
 
 ### Installation
 
