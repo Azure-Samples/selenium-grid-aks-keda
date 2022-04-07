@@ -6,7 +6,7 @@ Dedicated browser node pools will scale up from zero instances using KEDA (Kuber
 Seperation of the browser node pools isn't strictly essential to this sample, but it does provides;
 
 - Cost visbility through node pool tagging
-- Throttle specific browser-nodes tests to a lower maximum node pool size
+- The ability to limit specific browser-nodes tests to a lower maximum node pool size
 - A showcase for multi-nodepool queue based autoscaling
 
 ## Features
