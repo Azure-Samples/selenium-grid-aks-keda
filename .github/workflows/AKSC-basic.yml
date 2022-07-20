@@ -1,0 +1,16 @@
+name: AKSC-basic
+
+on:
+  workflow_dispatch:
+
+jobs:
+  reusable_workflow_job:
+    uses: Azure/AKS-Construction/.github/workflows/AKSC_Deploy.yml@main
+    with:
+      templateVersion: 0.6.2
+      rg: rg-stest-selenium
+      resourceName: stest
+    secrets:
+      AZURE_CLIENT_ID: ""
+      AZURE_TENANT_ID: ""
+      AZURE_SUBSCRIPTION_ID: ""
