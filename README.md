@@ -22,40 +22,40 @@ This sample shows the following features:
 
 ```mermaid
 graph TB
-    tst(Build agent run test)--> hub
+    tst(fa:fa-robot Build agent run test)--> hub
     style tst fill:#F25022,stroke:#333,stroke-width:4px
-    usr(User workstation run test)--> hub
+    usr(fa:fa-user User workstation run test)--> hub
     style usr fill:#F25022,stroke:#333,stroke-width:4px
     subgraph AKS Static User Pool
     hub(selenium hub)-->queue
-    queue(selenium queue)
+    queue(fa:fa-layer-group selenium queue)
     api(selenium api)-->queue
     end
     subgraph Keda
-    trigger-->|Things in the queue? |api
-    scale(Scale Logic)
+    trigger(fa:fa-bolt trigger)-->|Things in the queue? |api
+    scale(fa:fa-brain Scale Logic)
     end
     subgraph AKS
     scale-->sch
-    sch(Kubernetes Scheduler)
+    sch(fa:fa-cubes Kubernetes Scheduler)
     end
     subgraph AKS Chrome User Pool
     sch-->|Scale up|cse
-    cse(Autoscale triggered)-->cna
-    cna(Node Available)-->crt(Run test)
-    crt-->csd(Scale back)
+    cse(fa:fa-level-up-alt Autoscale triggered)-->cna
+    cna(fa:fa-question Node Available)-->crt(fa:fa-vial Run test)
+    crt-->csd(fa:fa-level-down-alt Scale back)
     end
     subgraph AKS Firefox User Pool
     sch-->|Scale up|fse
-    fse(Autoscale triggered)-->fna
-    fna(Node Available)-->frt(Run test)
-    frt-->fsd(Scale back)
+    fse(fa:fa-level-up-alt Autoscale triggered)-->fna
+    fna(fa:fa-question Node Available)-->frt(fa:fa-vial Run test)
+    frt-->fsd(fa:fa-level-down-alt Scale back)
     end
     subgraph AKS Edge User Pool
     sch-->|Scale up|ese
-    ese(Autoscale triggered)-->ena
-    ena(Node Available)-->ert(Run test)
-    ert-->esd(Scale back)
+    ese(fa:fa-level-up-alt Autoscale triggered)-->ena
+    ena(fa:fa-question Node Available)-->ert(fa:fa-vial Run test)
+    ert-->esd(fa:fa-level-down-alt Scale back)
     end
 ```
 
