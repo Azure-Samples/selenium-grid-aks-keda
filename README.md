@@ -104,11 +104,15 @@ az deployment group create -f .\acrImport.bicep -g <Resource Group of the ACR> -
 
 #### Selenium Grid
 
+git clone https://github.com/seleniumhq/docker-selenium.git
+
+# Change directory to the above cloned directory.
+
 Install Selenium Grid in the default Kubernetes namespace.
 
-> *Optional*: If you have pulled the images into your own ACR, you will need to change the helm charts after cloning the repo below.
+> *Optional*: If you have pulled the images into your own ACR, you will need to change the helm charts after cloning the repo.
 
-1. Change directory to the cloned directory below, and then navigate to charts/selenium-grid and open values.yaml
+1. Ensure you are in the correct directory, and then navigate to charts/selenium-grid and open values.yaml
 
 2. Change the Image Tag and the NodesImageTag to the tag you have used in your container registry when pulling the images. For the purposes of this example, we have used 'latest'.
 
@@ -149,9 +153,6 @@ az aks update -n <AKSClusterName> -g <Resource Group that contains your ACR> --a
 ````
 
 ```bash
-git clone https://github.com/seleniumhq/docker-selenium.git
-
-# Change directory to the above cloned directory.
 
 chromeReplicas=0
 firefoxReplicas=0
