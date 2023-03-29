@@ -77,7 +77,7 @@ Using [AKS Construction](https://github.com/Azure/Aks-Construction), we can quic
 One cluster will run the Selenium Grid, and the other will run a sample application.
 
 ```bash
-az deployment sub create -u https://github.com/Azure/AKS-Construction/releases/download/0.6.2/sample-peeredvnet-main.json -l WestEurope -p adminPrincipleId=$(az ad signed-in-user show --query objectId --out tsv)
+az deployment sub create -u https://github.com/Azure/AKS-Construction/releases/download/0.9.12/samples-peered-vnet.json -l WestEurope -p adminPrincipalId=$(az ad signed-in-user show --query objectId --out tsv)
 az aks get-credentials -n aks-grid-stest -g rg-stest-selenium --overwrite-existing
 ```
 
@@ -91,21 +91,83 @@ helm repo update
 kubectl create namespace keda
 helm install keda kedacore/keda --namespace keda
 ```
+#### Import images into your own ACR
+
+> *Optional*:
+By default the helm charts below pull the images from the public Docker Hub registry. If for security reasons you would like to pull them into your own Azure Container Registry and point the Helm chart to your 'local' copy of these images, follow the below steps.
+
+
+Review the list of images in acrImport.bicep before running the below.
+```bash
+az deployment group create -f .\acrImport.bicep -g <Resource Group of the ACR> -p acrName=<Your ACR Name>
+```
 
 #### Selenium Grid
 
 Install Selenium Grid in the default Kubernetes namespace.
 
+> *Optional*: If you have pulled the images into your own ACR, you will need to change the helm charts after cloning the repo below.
+
+1. Change directory to the cloned directory below, and then navigate to charts/selenium-grid and open values.yaml
+
+2. Change the Image Tag and the NodesImageTag to the tag you have used in your container registry when pulling the images. For the purposes of this example, we have used 'latest'.
+
+3. Then proceed to change all of the 'imageName' values to the image that is contained in your container registry. For example - For router we have set the value to - 'crgridstests4dlypacu24ac.azurecr.io/selenium/router'
+
+The Container Registry name, followed by the repo and then the image tag will be appended from the variable at the top of the file you have already changed.
+
+The next step is to package your newly edited files into a helm chart that you can push into your Azure Container Registry.
+
+````bash
+
+# Set some variables to use in the following commands
+
+ACRNAME="your ACR name"
+USER_NAME="00000000-0000-0000-0000-000000000000" #This can be left as the default
+PASSWORD=$(az acr login --name $ACRNAME --expose-token --output tsv --query accessToken) #This can be left as the default
+
+# Run the following from the directory that contains the helm charts.
+
+helm package .
+
+# Log in to your registry
+
+az acr login --name $ACRNAME
+
+#Log in to your registry with HELM
+
+helm registry login $ACRNAME --username $USER_NAME --password $PASSWORD
+
+#Push your edited helm chart to your container registry. Please note: the zipped file will have been generated from your helm package in the above step.
+
+helm push selenium-grid-0.15.4.tgz oci://$ACRNAME/helm
+
+#Attach your ACR to your AKS cluster to allow AKS to pull the image.
+
+az aks update -n <AKSClusterName> -g <Resource Group that contains your ACR> --attach-acr <Your ACR Name (Not the FQDN)>
+
+````
+
 ```bash
 git clone https://github.com/seleniumhq/docker-selenium.git
+
+# Change directory to the above cloned directory.
 
 chromeReplicas=0
 firefoxReplicas=0
 edgeReplicas=0
-helm upgrade --install selenium-grid docker-selenium/chart/selenium-grid/. --set hub.serviceType=LoadBalancer,chromeNode.replicas=$chromeReplicas,firefoxNode.replicas=$firefoxReplicas,edgeNode.replicas=$edgeReplicas,chromeNode.nodeSelector.selbrowser=chromepool,firefoxNode.nodeSelector.selbrowser=firefoxpool,edgeNode.nodeSelector.selbrowser=edgepool
+helm upgrade --install selenium-grid charts/selenium-grid/. --set hub.serviceType=LoadBalancer,chromeNode.replicas=$chromeReplicas,firefoxNode.replicas=$firefoxReplicas,edgeNode.replicas=$edgeReplicas,chromeNode.nodeSelector.selbrowser=chromepool,firefoxNode.nodeSelector.selbrowser=firefoxpool,edgeNode.nodeSelector.selbrowser=edgepool
+
+# Optional: If you are using your own container registry with the edited helm charts run the following command which points to your Azure Container Registry instead.
+
+helm install selenium-grid oci://$ACRNAME/helm/selenium-grid --version 0.15.1 --set hub.serviceType=LoadBalancer,chromeNode.replicas=$chromeReplicas,firefoxNode.replicas=$firefoxReplicas,edgeNode.replicas=$edgeReplicas,chromeNode.nodeSelector.selbrowser=chromepool,firefoxNode.nodeSelector.selbrowser=firefoxpool,edgeNode.nodeSelector.selbrowser=edgepool
 ```
 
-> Please note; The Selenium Dashboard is publicly exposed for ease of access, in most deployments this would not be public.
+> Please note; The Selenium Dashboard is publicly exposed for ease of access, in most deployments this would not be public. If you would like to ensure your dashboard is private, please add the following argument to the end of the above command. This will create the load balancer service for the Selenium dashboard as an internal load balancer using a private IP address.
+
+````bash
+--set-string hub.serviceAnnotations."service\.beta\.kubernetes\.io/azure-load-balancer-internal"="true"
+````
 
 #### Keda Triggers
 
@@ -132,6 +194,7 @@ Open the Azure Portal, and check that the 5 node pools are present and correct. 
 Now that the Cluster is ready, we can load up some tests to the Selenium Grid.
 
 1. Get the Public IP address the Selenium Hub is running on.
+> If you have opted to host the dashboard privately, the below commands will still work but they will not be 'public'.
 
 ```bash
 HUBPUBLICIP=$(kubectl get svc -l app=selenium-hub -o=jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}')
